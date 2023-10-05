@@ -29,8 +29,8 @@ This is a simple clone of the popular game "Flappy Bird" developed using the SDL
 2. Clone this repository:
 
    ```bash
-   git clone https://github.com/yourusername/flappybird-clone.git
-   cd flappybird-clone
+   git clone https://github.com/yourusername/flappy-bird-clone.git
+   cd flappy-bird-clone
    ```
 
 3. Build the game:

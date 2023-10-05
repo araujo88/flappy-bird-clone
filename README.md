@@ -53,4 +53,4 @@ This is a simple clone of the popular game "Flappy Bird" developed using the SDL
 
 ## License
 
-This project is licensed under the GNU General Public License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the GNU General Public License - see [LICENSE](LICENSE) file for details.

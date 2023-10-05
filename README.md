@@ -48,7 +48,7 @@ This is a simple clone of the popular game "Flappy Bird" developed using the SDL
 ## Controls
 
 - **Space** or **Left Mouse Button** : Flap
-- **R**: Restart (if you added this feature)
+- **R**: Restart
 - **Esc**: Quit
 
 ## License

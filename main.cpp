@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <list>
 #include <iostream>
 
@@ -34,7 +35,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    SDL_Window *window = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+    SDL_Window *window = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
     if (!window)
     {
         SDL_Log("Unable to create window: %s", SDL_GetError());
@@ -80,7 +81,20 @@ int main(int argc, char *argv[])
     if (!bgTexture)
     {
         SDL_Log("Failed to load background texture: %s", IMG_GetError());
-        // handle the error appropriately
+        return 1;
+    }
+
+    if (TTF_Init() == -1)
+    {
+        SDL_Log("Unable to initialize SDL_ttf: %s", TTF_GetError());
+        return 1;
+    }
+
+    TTF_Font *font = TTF_OpenFont("font.ttf", 24); // Adjust the size (24 here) as needed
+    if (!font)
+    {
+        SDL_Log("Unable to load font: %s", TTF_GetError());
+        return 1;
     }
 
     bool isRunning = true;
@@ -139,7 +153,34 @@ int main(int argc, char *argv[])
         SDL_Rect bgRect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
         SDL_RenderCopy(renderer, bgTexture, NULL, &bgRect);
 
-        // drawing the bird
+        // Render score
+        std::string scoreText = "Score: " + std::to_string(score);
+        SDL_Color textColor = {255, 255, 255, 255}; // White text; adjust as needed
+
+        SDL_Surface *scoreSurface = TTF_RenderText_Solid(font, scoreText.c_str(), textColor);
+        if (!scoreSurface)
+        {
+            SDL_Log("Unable to render text: %s", TTF_GetError());
+            return 1;
+        }
+
+        SDL_Texture *scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
+        if (!scoreTexture)
+        {
+            SDL_Log("Unable to create texture from rendered text: %s", SDL_GetError());
+            return 1;
+        }
+
+        int scoreWidth = scoreSurface->w;
+        int scoreHeight = scoreSurface->h;
+
+        SDL_Rect scoreRect = {10, 10, scoreWidth, scoreHeight}; // Position the score at the top-left of the screen with a little offset
+        SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
+
+        SDL_FreeSurface(scoreSurface);
+        SDL_DestroyTexture(scoreTexture);
+
+        // Draw bird
         SDL_Rect birdRect = {bird.x, bird.y, bird.width, bird.height};
         SDL_RenderCopy(renderer, birdTexture, NULL, &birdRect);
 
@@ -161,7 +202,6 @@ int main(int argc, char *argv[])
         else if (bird.y + bird.height > WINDOW_HEIGHT)
         {
             bird.y = WINDOW_HEIGHT - bird.height;
-            // Here you can also handle the game over logic if the bird hits the ground
         }
 
         // Drawing Pipes
@@ -205,12 +245,18 @@ int main(int argc, char *argv[])
         if (hasCollided && !bird.isColliding) // If there's a collision now, but there wasn't in the last frame
         {
             std::cout << "Bird collided with pipe!" << std::endl;
+            score = 0;
             bird.isColliding = true; // Update the global flag
             gameOver = true;
         }
         else if (!hasCollided) // If there's no collision now
         {
             bird.isColliding = false; // Reset the global flag
+        }
+
+        if (gameOver)
+        {
+            gameOver = false;
         }
 
         SDL_RenderPresent(renderer);
@@ -220,6 +266,8 @@ int main(int argc, char *argv[])
     SDL_DestroyTexture(upperPipeTexture);
     SDL_DestroyTexture(lowerPipeTexture);
     SDL_DestroyTexture(bgTexture);
+    TTF_CloseFont(font);
+    TTF_Quit();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

@@ -7,5 +7,8 @@ all: game
 game: main.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDLIBS)
 
+run:
+	./game
+
 clean:
 	rm -rf game

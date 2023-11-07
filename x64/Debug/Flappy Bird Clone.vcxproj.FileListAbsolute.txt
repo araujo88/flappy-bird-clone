@@ -1,0 +1,5 @@
+C:\Users\leona\Github\flappy-bird-clone\x64\Debug\Flappy Bird Clone.exe
+C:\Users\leona\Github\flappy-bird-clone\x64\Debug\Flappy Bird Clone.vcxproj.CopyComplete
+C:\Users\leona\Github\flappy-bird-clone\x64\Debug\SDL2_ttf.dll
+C:\Users\leona\Github\flappy-bird-clone\x64\Debug\brotlidec.dll
+C:\Users\leona\Github\flappy-bird-clone\x64\Debug\brotlicommon.dll

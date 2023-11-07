@@ -1,0 +1,5 @@
+﻿  main.cpp
+C:\Users\leona\Github\flappy-bird-clone\main.cpp(138,14): error C2371: 'currentTime': redefinition; different basic types
+C:\Users\leona\Github\flappy-bird-clone\main.cpp(126): message : see declaration of 'currentTime'
+C:\Users\leona\Github\flappy-bird-clone\main.cpp(139,98): error C2088: '-': illegal for class
+C:\Users\leona\Github\flappy-bird-clone\main.cpp(147,23): error C2065: 'SPEED': undeclared identifier
